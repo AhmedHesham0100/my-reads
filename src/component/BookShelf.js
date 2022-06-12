@@ -1,21 +1,12 @@
-import React, { useCallback } from "react";
+import React from "react";
 
-import { axiosInstance } from "../axios/config";
-
-const BookShelf = ({ book }) => {
-  //book update
-  const bookUpdate = useCallback(
-    async (shelf) => {
-      await axiosInstance({
-        method: "put",
-        url: `/books/${book.id}`,
-        data: { shelf },
-      })
-        .then((res) => res.data)
-        .catch((err) => console.error(err));
-    },
-    [book.id]
-  );
+const BookShelf = ({ book, bookUpdate }) => {
+  const shelves = [
+    { id: 1, shelfValue: "currentlyReading", shelfName: "Currently Reading" },
+    { id: 2, shelfValue: "wantToRead", shelfName: "Want to Read" },
+    { id: 3, shelfValue: "read", shelfName: "Read" },
+    { id: 4, shelfValue: "none", shelfName: "None" },
+  ];
 
   return (
     <li>
@@ -30,14 +21,18 @@ const BookShelf = ({ book }) => {
             }}
           ></div>
           <div className="book-shelf-changer">
-            <select onChange={(e) => bookUpdate(e.target.value)}>
+            <select
+              onChange={(e) => bookUpdate(e.target.value, book)}
+              value={book.shelf}
+            >
               <option value="none" disabled>
                 Move to...
               </option>
-              <option value="currentlyReading">Currently Reading</option>
-              <option value="wantToRead">Want to Read</option>
-              <option value="read">Read</option>
-              <option value="none">None</option>
+              {shelves.map((shelf) => (
+                <option value={shelf.shelfValue} key={shelf.id}>
+                  {shelf.shelfName}
+                </option>
+              ))}
             </select>
           </div>
         </div>

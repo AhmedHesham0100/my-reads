@@ -1,27 +1,11 @@
-import React, { useEffect, useCallback, useState } from "react";
+import React from "react";
 
 import { Link } from "react-router-dom";
 
-import { axiosInstance } from "../../axios/config";
-
 import BookShelf from "../../component/BookShelf";
 
-const Home = () => {
-  const [booksList, setBooksList] = useState([]);
+const Home = ({ booksList, bookUpdate }) => {
 
-  const getBooks = useCallback(async () => {
-    await axiosInstance({
-      method: "get",
-      url: `/books`,
-    })
-      .then((res) => res.data)
-      .then((data) => setBooksList(data.books))
-      .catch((err) => console.error(err));
-  }, []);
-
-  useEffect(() => {
-    getBooks();
-  }, [getBooks, booksList]);
 
   return (
     <div className="list-books">
@@ -37,7 +21,13 @@ const Home = () => {
                 {booksList &&
                   booksList
                     .filter((book) => book.shelf === "currentlyReading")
-                    .map((book) => <BookShelf book={book} key={book.id} />)}
+                    .map((book) => (
+                      <BookShelf
+                        book={book}
+                        key={book.id}
+                        bookUpdate={bookUpdate}
+                      />
+                    ))}
               </ol>
             </div>
           </div>
@@ -48,7 +38,13 @@ const Home = () => {
                 {booksList &&
                   booksList
                     .filter((book) => book.shelf === "wantToRead")
-                    .map((book) => <BookShelf book={book} key={book.id} />)}
+                    .map((book) => (
+                      <BookShelf
+                        book={book}
+                        key={book.id}
+                        bookUpdate={bookUpdate}
+                      />
+                    ))}
               </ol>
             </div>
           </div>
@@ -59,7 +55,13 @@ const Home = () => {
                 {booksList &&
                   booksList
                     .filter((book) => book.shelf === "read")
-                    .map((book) => <BookShelf book={book} key={book.id} />)}
+                    .map((book) => (
+                      <BookShelf
+                        book={book}
+                        key={book.id}
+                        bookUpdate={bookUpdate}
+                      />
+                    ))}
               </ol>
             </div>
           </div>
