@@ -1,18 +1,21 @@
-import React from "react";
+import React, { useCallback } from "react";
 
 import { axiosInstance } from "../axios/config";
 
 const BookShelf = ({ book }) => {
   //book update
-  const bookUpdate = async (shelf) => {
-    await axiosInstance({
-      method: "put",
-      url: `/books/${book.id}`,
-      data: { shelf },
-    })
-      .then((res) => res.data)
-      .catch((err) => console.error(err));
-  };
+  const bookUpdate = useCallback(
+    async (shelf) => {
+      await axiosInstance({
+        method: "put",
+        url: `/books/${book.id}`,
+        data: { shelf },
+      })
+        .then((res) => res.data)
+        .catch((err) => console.error(err));
+    },
+    [book.id]
+  );
 
   return (
     <li>
