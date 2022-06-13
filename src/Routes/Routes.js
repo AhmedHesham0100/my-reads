@@ -43,6 +43,7 @@ export const Routers = () => {
       )
       .catch((err) => console.error(err));
   };
+
   return (
     <BrowserRouter>
       <Routes>
@@ -53,7 +54,7 @@ export const Routers = () => {
         />
         <Route
           path="/myReads-app/search"
-          element={<Search bookUpdate={bookUpdate} />}
+          element={<Search bookUpdate={bookUpdate} booksList={booksList}/>}
         />
 
         <Route path="*" element={<NotFound />} />

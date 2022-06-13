@@ -6,7 +6,7 @@ import { axiosInstance } from "../../axios/config";
 
 import BookShelf from "../../component/BookShelf";
 
-const Search = ({ bookUpdate }) => {
+const Search = ({ bookUpdate, booksList }) => {
   const [booksSearchList, setBooksSearchList] = useState([]);
 
   //book search
@@ -17,9 +17,7 @@ const Search = ({ bookUpdate }) => {
       data: { query, maxResults },
     })
       .then((res) => res.data)
-      .then((data) =>
-        query ? setBooksSearchList(data?.books) : setBooksSearchList([])
-      )
+      .then((data) => setBooksSearchList(data?.books ? data?.books : []))
       .catch((err) => console.error(err));
   };
 
@@ -41,9 +39,11 @@ const Search = ({ bookUpdate }) => {
       <div className="search-books-results">
         <ol className="books-grid">
           {booksSearchList && booksSearchList.length > 0 ? (
-            booksSearchList.map((book) => (
-              <BookShelf book={book} key={book.id} bookUpdate={bookUpdate} />
-            ))
+            booksSearchList
+              .filter((book) => !booksList.includes(book))
+              .map((book) => (
+                <BookShelf book={book} key={book.id} bookUpdate={bookUpdate} />
+              ))
           ) : (
             <h1>no match books</h1>
           )}

@@ -5,8 +5,6 @@ import { Link } from "react-router-dom";
 import BookShelf from "../../component/BookShelf";
 
 const Home = ({ booksList, bookUpdate }) => {
-
-
   return (
     <div className="list-books">
       <div className="list-books-title">
