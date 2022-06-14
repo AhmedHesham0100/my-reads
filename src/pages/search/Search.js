@@ -44,7 +44,12 @@ const Search = ({ bookUpdate, booksList }) => {
         <ol className="books-grid">
           {booksSearchList && booksSearchList.length > 0 ? (
             booksSearchList.map((book) => (
-              <BookShelf book={book} key={book.id} bookUpdate={bookUpdate} />
+              <BookShelf
+                book={book}
+                key={book.id}
+                bookUpdate={bookUpdate}
+                booksList={booksList}
+              />
             ))
           ) : (
             <h1>no match books</h1>

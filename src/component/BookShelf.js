@@ -1,6 +1,6 @@
 import React from "react";
 
-const BookShelf = ({ book, bookUpdate }) => {
+const BookShelf = ({ book, bookUpdate, booksList }) => {
   const shelves = [
     { id: 1, shelfValue: "currentlyReading", shelfName: "Currently Reading" },
     { id: 2, shelfValue: "wantToRead", shelfName: "Want to Read" },
@@ -23,7 +23,14 @@ const BookShelf = ({ book, bookUpdate }) => {
           <div className="book-shelf-changer">
             <select
               onChange={(e) => bookUpdate(e.target.value, book)}
-              value={book.shelf ? book.shelf : "none"}
+              value={
+                booksList
+                  ? booksList.find((bookList) => bookList.id === book.id)
+                    ? booksList.find((bookList) => bookList.id === book.id)
+                        .shelf
+                    : "none"
+                  : book.shelf
+              }
             >
               <option value="moveTo" disabled>
                 Move to...
