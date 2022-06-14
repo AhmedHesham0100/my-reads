@@ -11,14 +11,18 @@ const Search = ({ bookUpdate, booksList }) => {
 
   //book search
   const bookSearch = async (query, maxResults) => {
-    await axiosInstance({
-      method: "post",
-      url: `/search`,
-      data: { query, maxResults },
-    })
-      .then((res) => res.data)
-      .then((data) => setBooksSearchList(data?.books ? data?.books : []))
-      .catch((err) => console.error(err));
+    if (query) {
+      await axiosInstance({
+        method: "post",
+        url: `/search`,
+        data: { query, maxResults },
+      })
+        .then((res) => res.data)
+        .then((data) => setBooksSearchList(data?.books))
+        .catch((err) => console.error(err));
+    } else {
+      setBooksSearchList([]);
+    }
   };
 
   return (
@@ -32,18 +36,16 @@ const Search = ({ bookUpdate, booksList }) => {
           <input
             type="text"
             placeholder="Search by title, author, or ISBN"
-            onChange={(e) => e.target.value && bookSearch(e.target.value, 20)}
+            onChange={(e) => bookSearch(e.target.value, 20)}
           />
         </div>
       </div>
       <div className="search-books-results">
         <ol className="books-grid">
           {booksSearchList && booksSearchList.length > 0 ? (
-            booksSearchList
-              .filter((book) => !booksList.includes(book))
-              .map((book) => (
-                <BookShelf book={book} key={book.id} bookUpdate={bookUpdate} />
-              ))
+            booksSearchList.map((book) => (
+              <BookShelf book={book} key={book.id} bookUpdate={bookUpdate} />
+            ))
           ) : (
             <h1>no match books</h1>
           )}
